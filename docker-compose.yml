@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web:
+    image: " 906287270054.dkr.ecr.us-east-1.amazonaws.com/vengym/iot:latest"
+    ports:
+      - "5000:5000"

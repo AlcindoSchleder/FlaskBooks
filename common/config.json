@@ -1,0 +1,97 @@
+{
+    "COMPANY_SECURITY_DATA": {
+        "security": {
+            "serverName": "vengym.com.br",
+            "key": "V#e$g(y)%m*M@-a!c9h|i+ne.0le7c&om_",
+            "num": 63887674938288,
+            "mod": 548091
+        },
+        "certificates": {
+            "password": "k4Hju+IYLwYBr8pHgdCjdX0iIPmVF7p5",
+            "private": "/var/www/.security/certs/private.pem",
+            "public" : "/var/www/.security/certs/public.pem" 
+        },
+        "files": {
+            "logger": "/var/log/portal/log_debug.txt" 
+        },
+        "mail": {
+            "smtpSenderName": "Vending Machine",
+            "smtpSenderMail": "comercial@vengym.com.br",
+            "smtpSenderUser": "comercial",
+            "smtpSenderPwd": "WDhx3Ayj9NygDMszA0pUww==",
+            "mailCharSet": "UTF-8",
+            "smtpServer": "mail.vengym.com.br",
+            "smtpPort": 587 
+        },
+        "general": {
+            "version": "1.0",
+            "siteName": "Vending Machine",
+            "title": " - Vengym",
+            "description": "self service and rental of accessories and equipment",
+            "author": "Grupo Ultra",
+            "devCopyright": " &copy; by <a href='mailto:comercial@vengym.com.br'>Grupo Ultra</a>"
+        }
+    },
+
+    "SQLITE_DATABASE_CONNECTION": {
+        "useSSL": false,
+        "database": {
+            "driver": "sqlite",
+            "host": "",
+            "user": "",
+            "password": "",
+            "db_name": "vengym.db"
+        }
+    },
+
+    "MYSQL_DATABASE_CONNECTION": {
+        "useSSL": true,
+        "database": {
+            "driver": "mysql",
+            "host": "191.241.192.43",
+            "user": "portaladmin",
+            "password": "Test@Password_0192837465",
+            "db_name": "vengym"
+        }
+    },
+
+    "PGSQL_DATABASE_CONNECTION": {
+        "useSSL": false,
+        "database": {
+            "driver": "postgresql",
+            "host": "191.241.192.43",
+            "user": "portaladmin",
+            "password": "Test@Password_0192837465",
+            "db_name": "vengym"
+        }
+    },
+
+    "MONGO_DATABASE_CONNECTION": {
+        "useSSL": true,
+        "database": {
+            "driver": "mongodb",
+            "host": "191.241.192.43",
+            "user": "portaladmin",
+            "password": "Test@Password_0192837465",
+            "db_name": "vengym"
+        }
+    },
+
+    "AWS_VCAP_SERVICES": {
+    },
+
+    "IBM_VCAP_SERVICES": {
+    },
+
+    "FACEBOOK_APP_DATA": {
+    },
+
+    "TWITTER_APP_DATA": {
+    },
+
+    "LINKEDIN_APP_DATA": {
+    },
+
+    "GITHUB_APP_DATA": {
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "ICITY_SECURITY_DATA": {
+        "company": {
+            "serverName": "www.mydomain.com", 
+            "key": "A_KEY_TO_OPEN_SSL:num_and_mod->used_to_calc_hash",
+            "num": 63887674938288,
+            "mod": 548091 
+        },
+        "certificates": {
+            "password": "PAASWORD_FOR_YOUR_CERTIFICATE",
+            "private": "/path_to_certificate_private_key/private.pem",
+            "public" : "/path_to_certificate_public_key/public.pem" 
+        },
+        "files": {
+            "logger": "/var/log/portal/log_debug.txt" 
+        },
+        "mail": {
+            "smtpSenderName": "NAME_OF_SENDER_EMAIL",
+            "smtpSenderMail": "user@mydomain.com",
+            "smtpSenderUser": "USER_OF_SENDER_EMAIL",
+            "smtpSenderPwd": "PASSWORD_TO_SMTP_SERVER",
+            "mailCharSet": "UTF-8",
+            "smtpServer": "mail.mydomain.com",
+            "smtpPort": 587 
+        },
+        "general": {
+            "siteName": "NAME_TO_SET_ON_TITLE_SITE",
+            "title": "DESCRIPTION_TO_SET_ON_TITLE_SITE",
+            "description": "DESCRIPTION_TO_SET_ON_TITLE_SITE",
+            "author": "SITE_AUTHOR_NAME",
+            "devCopyright": " &copy; by <a href='mailto:user@mydomain.com'>Name of User</a>" 
+        }
+    },
+
+    "PGSQL_DATABASE_CONNECTION": {
+        "useSSL": true,
+        "database": {
+            "driver": "postgresql",
+            "host": "localhost",
+            "user": "DB_USER",
+            "password": "DB_PASSWORD",
+            "db_name": "DB_NAME" 
+        }
+    },
+
+    "MONGO_DATABASE_CONNECTION": {
+        "useSSL": true,
+        "database": {
+            "driver": "mongodb",
+            "host": "localhosy",
+            "user": "DB_USER",
+            "password": "DB_PASSWORD",
+            "db_name": "DB_NAME" 
+        }
+    },
+
+    "AWS_VCAP_SERVICES": {
+    },
+
+    "IBM_VCAP_SERVICES": {
+    },
+
+    "FACEBOOK_APP_DATA": {
+    },
+
+    "TWITTER_APP_DATA": {
+    },
+
+    "LINKEDIN_APP_DATA": {
+    },
+
+    "GITHUB_APP_DATA": {
+    }
+}

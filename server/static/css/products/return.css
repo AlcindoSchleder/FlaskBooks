@@ -1,0 +1,65 @@
+* {
+    margim: 0;
+    padding: 0:
+    list-style: none;
+}
+html {
+    font-family: 'Neusa Next Pro', Verdana, Arial, Helvetica, Times, sans-serif;
+    font-weight: light;
+    font-size: 16px;
+}
+body {
+    max-width: 1080px;
+    max-height: 1920px
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+}
+header {
+    display: block;
+    height: 640px;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+}
+header div {
+    padding-top: 75px;
+    color: #758097;
+    font-size: 4.43rem;
+    font-weight: bolder;
+}
+section .page-content {
+    color: #fff;
+    width: 100%;
+    height: 1280px;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgb(177, 69, 241);
+    background: -moz-linear-gradient(0deg, rgba(177, 69, 241, 1) 0%, rgba(60, 139, 247, 1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(177, 69, 241, 1) 0%, rgba(60, 139, 247, 1) 100%);
+    background: linear-gradient(0deg, rgba(177, 69, 241, 1) 0%, rgba(60, 139, 247, 1) 100%);
+}
+section .page-content div {
+    padding-top: 30px;
+    padding-left: 72px;
+    font-size: 4.43rem;
+    font-weight: bolder;
+}
+section .page-content img {
+    padding-top: 50px;
+    padding-left: 100px;
+}
+.page-footer {
+    border-top: 1px solid gray;
+    display: grid;
+    height: 10vh;
+    font-size: 2rem;
+    align-items: center;
+    text-align: left;
+    padding-left: 10px;
+}
+.page-footer .message-text {
+    font-size: 2rem;
+    color: blue;
+}

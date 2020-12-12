@@ -1,0 +1,14 @@
+-r ./base.txt
+
+# Commmom
+# ------------------------------------------------------------------------------
+aniso8601==8.1.0
+attrs==20.3.0
+click==7.1.2
+itsdangerous==1.1.0
+jsonschema==3.2.0
+MarkupSafe==1.1.1
+parse==1.18.0
+PyJWT==1.7.1
+pyrsistent==0.17.3
+pytz==2020.4

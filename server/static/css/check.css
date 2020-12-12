@@ -1,0 +1,71 @@
+* {
+    margim: 0;
+    padding: 0:
+    list-style: none;
+}
+html {
+    font-family: 'Neusa Pro';
+    font-weight: bold;
+    font-size: 16px;
+}
+body {
+    max-width: 1080px;
+    max-height: 1920px
+    width: 100vw;
+    height: 100vh;
+    background-color: #efeffc;
+}
+header .page-header {
+    display: grid;
+    height: 10vh;
+    font-size: 2rem;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid gray;
+}
+section .page-content {
+    display: grid;
+    color: blue;
+    height: 100vh;
+    align-items: center;
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    overflow: hidden;
+}
+section .page-content ul {
+    list-style: none;
+}
+section .page-content .check-marker {
+    color: orange;
+    font-size: 3rem;
+}
+section .page-content .check-process {
+    color: orange;
+}
+section .page-content .fa-check {
+    color: green;
+    margin-left: -2rem;
+    margin-top: -20px;
+}
+section .page-content .fa-times-circle {
+    color: red;
+    margin-left: -2rem;
+    margin-top: -20px;
+}
+section .page-content .check-text {
+    margin-left: 1.5rem;
+}
+footer .page-footer {
+    border-top: 1px solid gray;
+    display: grid;
+    height: 10vh;
+    font-size: 2rem;
+    align-items: center;
+    text-align: left;
+    padding-left: 10px;
+}
+footer .page-footer .message-text {
+    font-size: 2rem;
+    color: red;
+}

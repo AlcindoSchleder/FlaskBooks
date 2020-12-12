@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/check.css') }}">
+    <link rel="font" href="{{ url_for('static', filename='fonts/FaunaOne-Regular.ttf') }}">
+{% endblock %}
+
+{% block header %}
+<div class="page-header">
+    <img class="img-fluid" src="{{ url_for('static', filename='img/vengym.png') }}" />
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="page-content">
+        <ul class="ckeck-list">
+        {% for idx in range(0, len) %}
+            <li class="check-items{{idx}}">
+                <span class="check-marker far fa-share"></span>
+                <span class="check-passed{{idx}} fas fa-times-circle d-none"></span>
+                <span class="check-text">{{ data[idx]['commands']['description'] }}</span>
+                <span class="check-process{{idx}} fas fa-sync fa-spin d-none"></span>
+<!--                <span class="check-passed fas fa-check-circle"></span> -->
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer">
+    <div class="message-title">
+        Mensagem:<span class="message-text"></span>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/checklist.js') }}"></script>
+{% endblock %}

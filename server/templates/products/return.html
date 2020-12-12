@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/product/return.css') }}">
+    <link rel="font" href="{{ url_for('static', filename='fonts/NeusaNextPro.ttf') }}">
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">Produto Devolvido</div>
+    <img class="img-fluid" src="{{ url_for('static', filename='img/feedback.png') }}" alt="Unlook VM" />
+{% endblock %}
+
+{% block content %}
+<!--
+    <div id="page-content" class="page-content" >
+        <div class="content-title">Devolva o Produto na Bandeja da Máquina</div>
+        <img class="img-fluid d-block" src="{{ url_for('static', filename='img/libera_produto.gif') }}" alt="Libera Produto" />
+    </div>
+-->
+{% endblock %}
