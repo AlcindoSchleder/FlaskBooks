@@ -3,12 +3,19 @@ from flask_restplus import fields
 
 
 class UsersSerializer:
+    """
+    class       : UsersSerializer
+    description : Serializer Users Data
+    version     : 1.0.0
+    developer   : Alcindo Schleder <alcindoschleder@gmail.com>
+    """
     def __call__(self, api):
         return api.model('Users', {
-            'pk_categories': fields.Integer(required=False, description='Código da categoria'),
-            'dsc_tcat': fields.String(required=True, description='Descrição da categoria'),
-            'flag_tcat': fields.Integer(required=True, description='Tipo da categoria'),
-            'flag_default': fields.Integer(required=True, description='Marca categoria como default'),
-            'date_update': fields.DateTime(description='Data da última atualização do registro'),
-            'date_insert': fields.DateTime(description='Data da inserção do registro')
+            'pk_user': fields.Integer(required=False, description='Código'),
+            'email': fields.String(required=True, description='e-mail'),
+            'username': fields.String(required=True, description='Nome'),
+            'login': fields.String(required=True, description='Login'),
+            'passwd': fields.String(required=True, description='Senha'),
+            'date_update': fields.DateTime(description='Última atualização'),
+            'date_insert': fields.DateTime(description='Data de Inserção')
         })

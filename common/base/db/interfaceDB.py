@@ -63,7 +63,7 @@ class IDatabases(OperationResults, DBOperations):
     """
     _db = None
     _session = None
-    _db_table = None
+    _model = None
     _DATABASE_URI = None
 
     def __init__(self):
@@ -72,7 +72,7 @@ class IDatabases(OperationResults, DBOperations):
         self._user_permission = READ_PERM
         self._db = None
         self._session = None
-        self._db_table = None
+        self._model = None
         self._DATABASE_URI = None
 
     def _set_driver(self, driver: str):
@@ -101,16 +101,16 @@ class IDatabases(OperationResults, DBOperations):
         return self._session
 
     @property
-    def db_table(self):
-        return self._db_table
+    def model(self):
+        return self._model
 
-    @db_table.setter
-    def db_table(self, table):
-        self._db_table = table
+    @model.setter
+    def model(self, table):
+        self._model = table
 
     @property
-    def db_table_name(self) -> str:
-        return self._db_table.table_name
+    def table_name(self) -> str:
+        return self._model.table_name
 
     # @property
     # def engine(self):
@@ -126,7 +126,7 @@ class IDatabases(OperationResults, DBOperations):
     def exec_command(self, query: str, params: dict = None):
         raise NotImplementedError()
 
-    def browse_record(self, filters=None, order_by=None, start: int = 0, limit: int = 0):
+    def browse_record(self, **parameters):
         if self.__class__.__name__ == 'IDatabases':
             raise NotImplementedError()
         if not self._can_exec(FLAG_BROWSE):

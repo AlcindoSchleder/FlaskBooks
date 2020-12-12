@@ -17,9 +17,8 @@ class ICompanyServer(OperationResults):
     """
         Class that initialize API Server, Application Server or both
         * class      ICompanyServer
-        * requires   python 3.7
         * version    1.0.0
-        * developer  Alcindo Schleder <alcindo.schleder@amcom.com.br>
+        * developer  Alcindo Schleder <alcindoschleder@gmail.com>
     """
 
     def __init__(self):

@@ -17,6 +17,17 @@ class Connection(IDatabases):
     _app = None
     _app_config = None
     _engine = None
+    _model = None
+
+    PAGE_DATA = {
+        'summary': {
+            'count': 0,
+            'start': 0,
+            'limit': 0,
+            'next': '/',
+            'prev': '/'
+        },
+    }
 
     def __init__(self, app):
         super(Connection, self).__init__()
@@ -39,7 +50,7 @@ class Connection(IDatabases):
                 self._DATABASE_URI = self._app_config.connection_uri()
                 self._config_db()
         except Exception as e:
-            msg = f'A internal unexpected error occurred: ({e.args})'
+            msg = f'A internal unexpected error occurred: ({e})'
             self.status_code = 500
             self.status_message = msg
             raise Exception(msg)
@@ -59,8 +70,8 @@ class Connection(IDatabases):
                 self.status_message = msg
         except Exception as e:
             self.status_code = 500
-            self.status_message = f'{msg}: ({e.args})'
-            raise Exception(f'{msg}: ({e.args})')
+            self.status_message = f'{msg}: ({e})'
+            raise Exception(f'{msg}: ({e})')
         
     def _create_session(self):
         """
@@ -79,7 +90,7 @@ class Connection(IDatabases):
             if self._session and self._session.is_active:
                 self._session.close()
             msg = 'Can`t create a session into Database ' \
-                  f'{self._db_table.name}: ({e.args})'
+                  f'{self._model.name}: ({e})'
             self.status_code = 500
             self.status_message = msg
             raise Exception(msg)
@@ -99,7 +110,7 @@ class Connection(IDatabases):
                 if self._engine:
                     self._engine.dispose()
                 msg = 'A Unexpected error occurred on connect database, ' \
-                      f'please contact network admin! ({e.args})'
+                      f'please contact network admin! ({e})'
                 self.status_code = 500
                 self.status_message = msg
                 raise Exception(msg)
@@ -122,56 +133,72 @@ class Connection(IDatabases):
         if not self._session.is_active:
             self._session.begin()
         try:
-            result = self._session.query(self.db_table).from_statement(text(query)).params(params).all()
+            result = self._session.query(self.model).from_statement(text(query)).params(params).all()
             self._session.commit()
-            self.data = result
+            data = result
         except Exception as e:
             self._session.rollback()
             self.status_code = 500
-            self.status_message = f'Erro on execute sql command! {e.args}'
+            self.status_message = f'Erro on execute sql command! {e}'
+            data = result
         finally:
             self._session.close()
+            return data
 
-    def browse_record(self, filters=None, order_by=None, start: int = 0, limit: int = 0):
+    def get_filters(self, **filters):
+        if filters is not None:
+            return (getattr(self.model, a) == v for a, v in filters.items())
+        return None
+
+    def browse_record(self, **parameters):
         """
         Exceute a database query on database and store results in self.data
         """
-        page = {}
+        data = {}
+        start = parameters.get('start', 0)
+        limit = parameters.get('limit', 0)
+        filters = parameters.get('filters', None)
+        order_by = parameters.get('order_by', None)
         self.status_code = 200
         try:
+            super(Connection, self).browse_record(**parameters)
+            if filters is not None and type(filters) != dict:
+                raise Exception('Argument "filters" must be a python dictionary!')
+            if order_by is not None and type(order_by) != list:
+                raise Exception('Argument "order_by" must be a python array!')
             if not self._session.is_active:
                 self._session.begin()
-
+            if order_by is not None:
+                fields = ''
+                for field in order_by:
+                    fields += f'{fields}, '
+                fields = fields[-1] if len(fields) > 0 else ''
             if start > 0 and limit > 0:
-                page = {
-                    'summary': {
-                        'count': self._session.query(func.count(self._db_table)),
-                        'start': start,
-                        'limit': limit,
-                        'next': '/',
-                        'prev': '/'
-                    },
-                    'records': []
-                }
-            if filters is None:
-                if start > 0 and limit > 0:
-                    rows = self._session.query(self._db_table).limit(limit).offset(start * limit)
-                else:
-                    rows = self._session.query(self._db_table).all().order_by(order_by)
-                for row in rows:
-                    page['records'].append(row.as_dict())
+                rows = self._session.query(self._model)\
+                    .filters(self.get_filters(**filters))\
+                    .order_by(fields)\
+                    .limit(limit)\
+                    .offset(start * limit)
             else:
-                for row in self._session.query(self._db_table).filter(filters).all():
-                    page['records'].append(row.as_dict())
-            self.data = page
-
+                rows = self._session.query(self._model)\
+                    .filters(self.get_filters(**filters))\
+                    .order_by(fields).all()
+            if start > 0 and limit > 0:
+                data = self.PAGE_DATA
+                data['count'] = self._session.query(func.count(self._model))
+                data['start'] = start
+                data['limit'] = limit
+            data['records'] = [row.as_dict() for row in rows]
             self._session.commit()
         except Exception as e:
             self._session.rollback()
             self.status_code = 500
-            self.status_message = f'Erro ao pesquisar registros na tabela {self.db_table_name}! : {e.args}'
+            self.status_message = \
+                f'Erro ao pesquisar registros na tabela {self.table_name}!\n{e}'
+            data = self.get_result()
         finally:
             self._session.close()
+            return data
 
     def insert_record(self):
         """
@@ -179,18 +206,20 @@ class Connection(IDatabases):
         """
         self.status_code = 200
         try:
+            super(Connection, self).insert_record()
             if not self._session.is_active:
                 self._session.begin()
-            data = self._session.add(self._db_table)
-            self.data = data
+            data = self._session.add(self._model)
             self._session.commit()
         except Exception as e:
             self._session.rollback()
             self.status_code = 500
             self.status_message = 'Erro ao inserir um registro na tabela' \
-                                  f' {self.db_table_name}! :{e.args}'
+                                  f' {self.table_name}! :{e}'
+            data = self.get_result()
         finally:
             self._session.close()
+            return data
 
     def update_record(self):
         """
@@ -198,18 +227,20 @@ class Connection(IDatabases):
         """
         self.status_code = 200
         try:
+            super(Connection, self).update_record()
             if not self._session.is_active:
                 self._session.begin()
-            data = self._session.update(self._db_table)
-            self.data = data
+            data = self._session.update(self._model)
             self._session.commit()
         except Exception as e:
             self._session.rollback()
             self.status_code = 500
             self.status_message = 'Erro ao editar um registro na tabela' \
-                                  f' {self.db_table_name}! :{e.args}'
+                                  f' {self.table_name}! :{e.args}'
+            data = self.get_result()
         finally:
             self._session.close()
+            return data
 
     def delete_record(self):
         """
@@ -217,18 +248,21 @@ class Connection(IDatabases):
         """
         self.status_code = 200
         try:
+            super(Connection, self).delete_record()
             if not self._session.is_active:
                 self._session.begin()
-            self._session.delete(self._db_table)
-            self.data = {}
+            self._session.delete(self._model)
             self._session.commit()
+            data = True
         except Exception as e:
             self._session.rollback()
             self.status_code = 500
             self.status_message = 'Erro ao deletar um registro na tabela ' \
-                                  f'{self.db_table_name}! :{e.args}'
+                                  f'{self.table_name}! :{e.args}'
+            data = self.get_result()
         finally:
             self._session.close()
+            return data
 
     def set_permission(self, new_permission: int = READ_PERM):
         super(Connection, self).set_permission(new_permission)

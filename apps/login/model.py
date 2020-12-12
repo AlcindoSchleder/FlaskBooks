@@ -11,10 +11,8 @@ class Users(SchemaBase):
     """
         class       : Users model
         description : Model of table to login
-        developer   : Alcindo Schleder
         version     : 1.0.0
-        test version: 1
-        test status :
+        developer   : Alcindo Schleder <alcindoschleder@gmail.com>
     """
 
     __tablename__ = 'users'
@@ -28,24 +26,26 @@ class Users(SchemaBase):
     update_date = Column(DateTime, nullable=False)
     insert_date = Column(DateTime, nullable=True)
 
-    def __init__(self, pkUser=None, Username=None, Login=None, Passwd=None, dateUpdate=None,
-                 dateInsert=None):
-        self.pk_user = pkUser if pkUser else None
-        self.username = Username if Username else None
-        self.login = Login if Login else None
-        self.passwd = Passwd if Passwd else 0
-        self.date_update = dateUpdate
-        self.date_insert = dateInsert if dateInsert else datetime.now()
+    def __init__(self, pkUser=None, Username=None, eMail=None, Login=None, Passwd=None, updateDate=None,
+                 insertDate=None):
+        self.pk_user = pkUser
+        self.username = Username
+        self.eMail = eMail
+        self.login = Login
+        self.passwd = Passwd
+        self.update_date = updateDate
+        self.insert_date = insertDate if insertDate else datetime.now()
 
     def gen_hash(self):
-        self.password = pbkdf2_sha256.hash(self.password)
+        return pbkdf2_sha256.hash(self.password)
 
-    def verify_password(self, password):
-        return pbkdf2_sha256.verify(password, self.password)
+    def verify_password(self, passwd):
+        return pbkdf2_sha256.verify(passwd, self.passwd)
 
     @validates('passwd', include_backrefs=False)
     def passwd(self, key, address):
-        assert ((address > -1) and (address < 6)), "Field 'flag_tcat' only supports value between 0 and 5!"
+        assert ((address > -1) and (address < 6)), "Field 'Senha' must has 6 or more chars!"
+        address = self.gen_hash()
         return address
 
     @property

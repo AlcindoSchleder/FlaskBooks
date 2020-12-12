@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="font" href="{{ url_for('static', filename='fonts/FaunaOne-Regular.ttf') }}">
+{% endblock %}
+
+{% block header %}
+<div class="page-header">
+    <img class="img-fluid" src="{{ url_for('static', filename='img/book.png') }}" />
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Login do Usuário</h1>
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer">
+    <div class="message-title">
+        Mensagem:<span class="message-text"></span>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
