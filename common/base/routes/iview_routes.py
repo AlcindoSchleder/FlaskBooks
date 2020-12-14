@@ -1,19 +1,39 @@
 # -*- coding: utf-8 -*-
 from flask import render_template, render_template_string
 from flask.views import MethodView, View, request
+from common import BASE_DIR
 from common.base.db.connection import Connection
 from common.helpers.operation_results import OperationResults
 from common.helpers.exceptions import HttpTemplateNotFound
 from server import server
 
-APP_ROOT = server.server_prefix
-APP_BASE_NAME = 'home'
-VERSION = '1.0'
-PREFIX_ROUTE = f'{APP_ROOT}/{APP_BASE_NAME}'
-PATH_APP = f'{APP_ROOT}/{APP_BASE_NAME}'
+
+class HandleDBViewMeta(type):
+    def __new__(meta, name, bases, dct):
+        print(name)
+        super(HandleDBViewMeta, meta).__new__(cls, name, bases, dct)
+
+    def __init__(meta, name, bases, dct):
+        print(name)
+        super(HandleDBViewMeta, meta).__init__(name, bases, dct)
+
+class CommomProperties:
+    _version = '0.0.1'
+    context = None
+    template = None
+    APP_BASE_NAME = 'home'
+    PREFIX_ROUTE = f'/{APP_BASE_NAME}'
+    PATH_APP = f'{ROOT_ROUTE}{APP_BASE_NAME}'
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @property
+    def version(self):
+        return f'{self._version}'
 
 
-class ICRUDRoutes(MethodView, OperationResults):
+class HandleDBView(MethodView, OperationResults, metaclass=HandleDBViewMeta):
     """
     class       : ICRUDRoutes (Interface)
     description : Class that manage views to handle database
@@ -23,11 +43,9 @@ class ICRUDRoutes(MethodView, OperationResults):
     _db = None
     _model = None
     pk = None
-    context = None
-    template = None
 
     def __init__(self, *args, **kwargs):
-        super(ICRUDRoutes, self).__init__(args, kwargs)
+        super(HandleDBView, self).__init__(args, kwargs)
         self._db = Connection(server.server_app)
         self.context = kwargs.get('context', None)
         self.template = kwargs.get('template', None)
@@ -43,6 +61,13 @@ class ICRUDRoutes(MethodView, OperationResults):
         if self.template is None:
             raise HttpTemplateNotFound
         return self.template
+
+    class Meta:
+        db = Connection(server.server_app)
+        template = None
+        context = None
+        db = None
+        model = None
 
     def get_queryset(self):
         pass

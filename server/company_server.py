@@ -27,7 +27,7 @@ class ICompanyServer(OperationResults):
         # Create a instance of Flask and get api configuration
         self.server_app = Flask(__name__)
 
-        self.server_prefix = '/server-api'
+        self.server_prefix = '/'
         self.server_app.config['FLASK_ENV'] = os.environ.get("FLASK_ENV", default="development")
         self.set_environment_config()
         # Create all blueprint apps
